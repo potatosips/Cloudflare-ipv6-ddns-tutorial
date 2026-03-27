@@ -820,50 +820,6 @@
     The one with the little shield icon. Yes, that one. Right-click → Run as Administrator.
   </div>
 
-  <h3>▸ Step 1 — Install the Service</h3>
-
-  <div class="code-block">
-    <div class="code-header">
-      <div class="code-dots"><span></span><span></span><span></span></div>
-      <span>PowerShell (Administrator) // INSTALL SERVICE</span>
-    </div>
-    <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-    <pre id="code-nssm-install"><span class="cmt"># Register the service with NSSM</span>
-& <span class="str">"C:\tools\nssm.exe"</span> install CloudflareIpv6DDNS <span class="str">"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"</span></pre>
-  </div>
-
-  <h3>▸ Step 2 — Configure the Service</h3>
-
-  <div class="code-block">
-    <div class="code-header">
-      <div class="code-dots"><span></span><span></span><span></span></div>
-      <span>PowerShell (Administrator) // CONFIGURE</span>
-    </div>
-    <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-    <pre id="code-nssm-config">& <span class="str">"C:\tools\nssm.exe"</span> set CloudflareIpv6DDNS AppDirectory    <span class="str">"C:\Potatosips_DDNS_Cloudflare"</span>
-& <span class="str">"C:\tools\nssm.exe"</span> set CloudflareIpv6DDNS AppParameters   <span class="str">'-ExecutionPolicy Bypass -File "C:\Potatosips_DDNS_Cloudflare\potatosips-update-cloudflare-dns-ipv6-only.ps1"'</span>
-& <span class="str">"C:\tools\nssm.exe"</span> set CloudflareIpv6DDNS DisplayName    <span class="str">"Cloudflare IPv6 DDNS"</span>
-& <span class="str">"C:\tools\nssm.exe"</span> set CloudflareIpv6DDNS Description    <span class="str">"Updates Cloudflare AAAA record with current IPv6"</span>
-& <span class="str">"C:\tools\nssm.exe"</span> set CloudflareIpv6DDNS Start          SERVICE_AUTO_START
-& <span class="str">"C:\tools\nssm.exe"</span> set CloudflareIpv6DDNS AppExit        Default Exit</pre>
-  </div>
-
-  <h3>▸ Step 3 — Verify & Start</h3>
-
-  <div class="code-block">
-    <div class="code-header">
-      <div class="code-dots"><span></span><span></span><span></span></div>
-      <span>PowerShell (Administrator) // DUMP + START</span>
-    </div>
-    <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-    <pre id="code-nssm-start"><span class="cmt"># Dump current config to verify settings</span>
-& <span class="str">"C:\tools\nssm.exe"</span> dump CloudflareIpv6DDNS
-
-<span class="cmt"># Start the service now</span>
-& <span class="str">"C:\tools\nssm.exe"</span> start CloudflareIpv6DDNS</pre>
-  </div>
-
-  <h3>▸ All-in-One Block</h3>
   <p>Paste everything at once if you're feeling reckless and/or caffeinated:</p>
 
   <div class="code-block">
@@ -886,55 +842,8 @@
 
 <!-- ── VERIFY ── -->
 <section id="verify">
-  <div class="section-label">SECTION 06 // VERIFICATION</div>
-  <h2><span class="step-num">06</span> Verify It Works</h2>
-
-  <h3>▸ Check Service Status</h3>
-  <div class="code-block">
-    <div class="code-header">
-      <div class="code-dots"><span></span><span></span><span></span></div>
-      <span>PowerShell // CHECK STATUS</span>
-    </div>
-    <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-    <pre id="code-verify"><span class="cmt"># Check service status</span>
-<span class="func">Get-Service</span> -Name CloudflareIpv6DDNS
-
-<span class="cmt"># Run the script manually to test (as admin)</span>
-& <span class="str">"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"</span> `
-  -ExecutionPolicy Bypass `
-  -File <span class="str">"C:\Potatosips_DDNS_Cloudflare\potatosips-update-cloudflare-dns-ipv6-only.ps1"</span>
-
-<span class="cmt"># Or check via NSSM</span>
-& <span class="str">"C:\tools\nssm.exe"</span> status CloudflareIpv6DDNS</pre>
-  </div>
-
-  <div class="terminal">
-    Updated potatosips.yourdomain.win AAAA to 2001:db8:cafe::1<br>
-    <span style="color:var(--dim);"># or if no change was needed:</span><br>
-    No update needed. potatosips.yourdomain.win already points to 2001:db8:cafe::1
-  </div>
-
-  <h3>▸ Verify DNS from Outside</h3>
-  <div class="code-block">
-    <div class="code-header">
-      <div class="code-dots"><span></span><span></span><span></span></div>
-      <span>PowerShell // DNS LOOKUP</span>
-    </div>
-    <button class="copy-btn" onclick="copyCode(this)">COPY</button>
-    <pre id="code-dns-check"><span class="cmt"># Check the AAAA record resolves correctly</span>
-<span class="func">Resolve-DnsName</span> -Name potatosips.yourdomain.win -Type AAAA
-
-<span class="cmt"># Or using nslookup</span>
-nslookup -type=AAAA potatosips.yourdomain.win 1.1.1.1</pre>
-  </div>
-
-  <div class="callout ok">
-    <span class="pulse"></span>
-    If it resolves to your current IPv6 address — you're done. The service will silently keep it
-    updated forever. Or until your PC explodes. Whichever comes first.
-  </div>
-
-  <h3>▸ Manage the Service Later</h3>
+  <div class="section-label">SECTION 06 // SERVICE MANAGEMENT</div>
+  <h2><span class="step-num">06</span> Manage the Service Later</h2>
 
   <div class="code-block">
     <div class="code-header">

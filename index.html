@@ -147,33 +147,7 @@
   }
   .dark-humor::before { content: '// '; color: var(--dim); }
 
-  /* ── NAV ── */
-  nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(2,8,16,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    gap: 0;
-    overflow-x: auto;
-  }
 
-  nav a {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.15em;
-    color: var(--dim);
-    text-decoration: none;
-    padding: 14px 20px;
-    white-space: nowrap;
-    transition: color 0.2s, background 0.2s;
-    border-right: 1px solid var(--border);
-    position: relative;
-  }
-  nav a:hover { color: var(--cyan); background: rgba(0,245,255,0.05); }
-  nav a::before { content: attr(data-n) ' '; color: var(--dim); opacity: 0.5; }
 
   /* ── MAIN LAYOUT ── */
   main {
@@ -481,7 +455,6 @@
 
   /* responsive */
   @media (max-width: 600px) {
-    nav a { padding: 12px 14px; font-size: 0.65rem; }
     pre { font-size: 0.72rem; }
     .copy-btn { display: none; }
   }
@@ -502,16 +475,7 @@
   </div>
 </header>
 
-<nav>
-  <a href="#overview"     data-n="00">OVERVIEW</a>
-  <a href="#prereqs"      data-n="01">PREREQS</a>
-  <a href="#cloudflare"   data-n="02">CLOUDFLARE</a>
-  <a href="#conf-file"    data-n="03">CONFIG FILE</a>
-  <a href="#script-file"  data-n="04">SCRIPT</a>
-  <a href="#nssm"         data-n="05">NSSM SERVICE</a>
-  <a href="#verify"       data-n="06">VERIFY</a>
-  <a href="#how-it-works" data-n="07">HOW IT WORKS</a>
-</nav>
+
 
 <main>
 
@@ -1069,19 +1033,7 @@ nslookup -type=AAAA potatosips.yourdomain.win 1.1.1.1</pre>
     observer.observe(s);
   });
 
-  // ACTIVE NAV HIGHLIGHT
-  const navLinks = document.querySelectorAll('nav a');
-  const sectionEls = document.querySelectorAll('section[id]');
 
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sectionEls.forEach(s => {
-      if (window.scrollY >= s.offsetTop - 100) current = s.id;
-    });
-    navLinks.forEach(a => {
-      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--cyan)' : '';
-    });
-  }, { passive: true });
 </script>
 </body>
 </html>
